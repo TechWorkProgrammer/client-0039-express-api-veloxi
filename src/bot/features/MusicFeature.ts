@@ -169,7 +169,7 @@ class MusicFeature extends Service {
                 MusicWorker.addToQueue(music.taskId);
                 await bot.sendMessage(
                     chatId,
-                    "🎧 <b>LogicAI is still creating your music track.</b>\n\nGreat tunes take time! Try checking back in <b>about 3 minutes</b> — it’ll be worth the wait.",
+                    "🎧 <b>VeloxiAI is still creating your music track.</b>\n\nGreat tunes take time! Try checking back in <b>about 3 minutes</b> — it’ll be worth the wait.",
                     {parse_mode: "HTML"}
                 );
                 return;

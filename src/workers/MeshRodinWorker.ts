@@ -172,7 +172,7 @@ class MeshRodinWorker {
                 const glbModelUrlPath = `${Variables.BASE_URL}/assets/models/${this.taskId}${glbExt}`;
                 await this.downloadFile(glbUrl, glbPath);
 
-                let finalImageUrl: string | null = "https://logicai.technology/icon.png";
+                let finalImageUrl: string | null = "https://veloxiai.app/icon.png";
                 const textures = result.data.textures;
 
                 if (textures && textures.length > 0) {
@@ -192,7 +192,7 @@ class MeshRodinWorker {
                     } catch (thumbError: any) {
                         console.error(`Failed to generate thumbnail for ${this.taskId}:`, thumbError);
                         WebSocket.sendMessage(this.taskId, "generating_thumbnail_failed", "Failed to generate thumbnail.");
-                        finalImageUrl = `https://logicai.technology/icon.png`;
+                        finalImageUrl = `https://veloxiai.app/icon.png`;
                     }
                 }
 

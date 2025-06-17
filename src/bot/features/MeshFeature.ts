@@ -135,18 +135,18 @@ class MeshFeature extends Service {
             } else if (data === "back_main_menu") {
                 await bot.sendMessage(
                     chatId,
-                    "👋 <b>Welcome to LogicAI Bot!</b>\n\nSelect an option below to get started.",
+                    "👋 <b>Welcome to VeloxiAI Bot!</b>\n\nSelect an option below to get started.",
                     {
                         parse_mode: "HTML",
                         reply_markup: {
                             inline_keyboard: [
                                 [{text: "🖼️ 3D", callback_data: "menu_3d"}],
                                 [{text: "🎵 Music", callback_data: "menu_music"}],
-                                [{text: "💻 Project", url: "https://logicai.technology/program"}],
+                                [{text: "💻 Project", url: "https://veloxiai.app/program"}],
                                 [{text: "🎨 NFT", callback_data: "menu_nft"}],
                                 [{text: "🌐 Metaverse", callback_data: "menu_metaverse"}],
                                 [{text: "🎮 Game", callback_data: "menu_game"}],
-                                [{text: "🌐 Visit Our Website", url: "https://logicai.technology"}]
+                                [{text: "🌐 Visit Our Website", url: "https://veloxiai.app"}]
                             ]
                         }
                     }
@@ -429,7 +429,7 @@ class MeshFeature extends Service {
                 MeshWorker.addToQueue(mesh.taskIdPreview);
                 await bot.sendMessage(
                     chatId,
-                    "🧠 <b>LogicAI is still working on your 3D model.</b>\n\nHigh-quality results take a little time. Please try again in around <b>3 minutes</b> — your asset will be ready soon!",
+                    "🧠 <b>VeloxiAI is still working on your 3D model.</b>\n\nHigh-quality results take a little time. Please try again in around <b>3 minutes</b> — your asset will be ready soon!",
                     {parse_mode: "HTML"}
                 );
                 return;
@@ -455,7 +455,7 @@ class MeshFeature extends Service {
                 [
                     {
                         text: "🌐 View on Web",
-                        url: `https://logicai.technology/3d/${webTaskId}`
+                        url: `https://veloxiai.app/3d/${webTaskId}`
                     },
                     {text: "↩️ Back to 3D Menu", callback_data: "back_mesh_menu"}
                 ]

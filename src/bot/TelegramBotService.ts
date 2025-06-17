@@ -22,18 +22,18 @@ class TelegramBotService {
     }
 
     private static showMainMenu(chatId: number): void {
-        const message = `👋 <b>Welcome to LogicAI Bot!</b>\n\nSelect an option below to get started.`;
+        const message = `👋 <b>Welcome to VeloxiAI Bot!</b>\n\nSelect an option below to get started.`;
         const menuOptions: TelegramBot.SendMessageOptions = {
             parse_mode: "HTML",
             reply_markup: {
                 inline_keyboard: [
                     [{text: "🖼️ 3D", callback_data: "menu_3d"}],
                     [{text: "🎵 Music", callback_data: "menu_music"}],
-                    [{text: "💻 Project", url: "https://logicai.technology/program"}],
+                    [{text: "💻 Project", url: "https://veloxiai.app/program"}],
                     [{text: "🎨 NFT", callback_data: "menu_nft"}],
                     [{text: "🌐 Metaverse", callback_data: "menu_metaverse"}],
                     [{text: "🎮 Game", callback_data: "menu_game"}],
-                    [{text: "🌐 Visit Our Website", url: "https://logicai.technology"}]
+                    [{text: "🌐 Visit Our Website", url: "https://veloxiai.app"}]
                 ]
             }
         };
