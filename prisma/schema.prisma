@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ApiKey {
+  id          String   @id @default(uuid())
+  keyHash     String   @unique @db.VarChar(255)
+  activeTasks Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  meshes Mesh[]
+}
+
+model User {
+  id            String          @id @default(uuid())
+  username      String          @unique @db.VarChar(50)
+  address       String          @unique @db.VarChar(255)
+  point         Int             @default(0)
+  password      String?
+  music         Music[]
+  mesh          Mesh[]
+  favorites     Favorite[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  session       Session?
+  GeneratedCode GeneratedCode[]
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  token        String   @db.Text
+  refreshToken String   @db.Text
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WalletNonce {
+  address   String   @id @db.VarChar(255)
+  nonce     String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+}
+
+model TelegramUser {
+  id         String   @id @default(uuid())
+  telegramId String   @unique @db.VarChar(50)
+  username   String?  @db.VarChar(50)
+  music      Music[]
+  mesh       Mesh[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Music {
+  id             String        @id @default(uuid())
+  title          String        @default("") @db.VarChar(100)
+  tags           String?       @db.VarChar(255)
+  lyrics         String?       @db.Text
+  audioUrl       String?       @db.VarChar(255)
+  imageUrl       String?       @db.VarChar(255)
+  videoUrl       String?       @db.VarChar(255)
+  state          String        @default("pending") @db.VarChar(20)
+  taskId         String        @unique @db.VarChar(100)
+  totalView      Int           @default(0)
+  userId         String?
+  telegramUserId String?
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  telegram       TelegramUser? @relation(fields: [telegramUserId], references: [id], onDelete: Cascade)
+  favorites      Favorite[]
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+}
+
+model Mesh {
+  id            String  @id @default(uuid())
+  prompt        String  @db.Text
+  modelType     String
+  aiVersion     String  @default("meshy")
+  taskIdPreview String  @unique @db.VarChar(100)
+  taskIdRefine  String? @unique @db.VarChar(100)
+  totalView     Int     @default(0)
+
+  modelGlbPreview  String? @db.VarChar(255)
+  modelFbxPreview  String? @db.VarChar(255)
+  modelUsdzPreview String? @db.VarChar(255)
+  modelObjPreview  String? @db.VarChar(255)
+  previewImage     String? @db.VarChar(255)
+  videoPreview     String? @db.VarChar(255)
+
+  modelGlbRefine  String? @db.VarChar(255)
+  modelFbxRefine  String? @db.VarChar(255)
+  modelUsdzRefine String? @db.VarChar(255)
+  modelObjRefine  String? @db.VarChar(255)
+  modelMtlRefine  String? @db.VarChar(255)
+  refineImage     String? @db.VarChar(255)
+  videoRefine     String? @db.VarChar(255)
+
+  textures       Texture[]
+  userId         String?
+  telegramUserId String?
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  telegram       TelegramUser? @relation(fields: [telegramUserId], references: [id], onDelete: Cascade)
+  favorites      Favorite[]
+
+  state     String   @default("pending") @db.VarChar(20)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  apiKey    ApiKey?  @relation(fields: [apiKeyId], references: [id])
+  apiKeyId  String?
+}
+
+model Texture {
+  id     String @id @default(uuid())
+  meshId String @db.VarChar(100)
+  type   String @db.VarChar(50)
+  url    String @db.VarChar(255)
+  mesh   Mesh   @relation(fields: [meshId], references: [id], onDelete: Cascade)
+}
+
+model Favorite {
+  id        String   @id @default(uuid())
+  userId    String
+  meshId    String?  @db.VarChar(100)
+  musicId   String?  @db.VarChar(100)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  mesh      Mesh?    @relation(fields: [meshId], references: [id], onDelete: Cascade)
+  music     Music?   @relation(fields: [musicId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, meshId])
+  @@unique([userId, musicId])
+}
+
+model GeneratedCode {
+  id        String   @id @default(uuid())
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String?
+  prompt    String   @db.Text
+  result    Json     @db.Json
+  createdAt DateTime @default(now())
+}
